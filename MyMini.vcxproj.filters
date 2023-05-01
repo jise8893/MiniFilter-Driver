@@ -24,7 +24,7 @@
     </Inf>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Minifilter.c">
+    <ClCompile Include="Minifilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

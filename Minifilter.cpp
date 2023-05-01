@@ -10,7 +10,7 @@ FLT_PREOP_CALLBACK_STATUS MiniPreCreate(PFLT_CALLBACK_DATA Data, PCFLT_RELATED_O
 FLT_PREOP_CALLBACK_STATUS MiniPreWrite(PFLT_CALLBACK_DATA Data, PCFLT_RELATED_OBJECTS FltObjects, PVOID* CompletionContext);
 
 const FLT_OPERATION_REGISTRATION Callbacks[] = {
- {IRP_MJ_CREATE, 0, MiniPreCreate, MiniPostCreate},
+ {IRP_MJ_CREATE, 0, MiniPreCreate,(PFLT_POST_OPERATION_CALLBACK) MiniPostCreate},
  {IRP_MJ_WRITE, 0, MiniPreWrite, NULL},
  {IRP_MJ_OPERATION_END}
 };
@@ -43,10 +43,10 @@ NTSTATUS MiniUnload(FLT_FILTER_UNLOAD_FLAGS Flags)
 
 FLT_POSTOP_CALLBACK_STATUS MiniPostCreate(PFLT_CALLBACK_DATA Data, PCFLT_RELATED_OBJECTS FltObjects, PVOID* CompletionContext, FLT_POST_OPERATION_FLAGS Flags)
 {
-    CompletionContext = CompletionContext;
-    Data = Data;
-    Flags = Flags;
-    FltObjects = FltObjects;    
+    UNREFERENCED_PARAMETER(CompletionContext);
+    UNREFERENCED_PARAMETER(Data);
+    UNREFERENCED_PARAMETER(Flags);
+    UNREFERENCED_PARAMETER(FltObjects);
     DbgPrint("MiniFilter PostCreate Run\r\n");
 
     return FLT_POSTOP_FINISHED_PROCESSING;
@@ -120,7 +120,7 @@ FLT_PREOP_CALLBACK_STATUS MiniPreWrite(PFLT_CALLBACK_DATA Data, PCFLT_RELATED_OB
     return FLT_PREOP_SUCCESS_NO_CALLBACK;
 }
 
-NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
+extern "C" NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 {
     NTSTATUS status;
     RegistryPath = RegistryPath;
